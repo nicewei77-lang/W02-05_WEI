@@ -33,19 +33,36 @@ def merge(arr, left, mid, right):
         right: 오른쪽 부분의 끝 인덱스
     """
     # TODO: 왼쪽과 오른쪽 부분 배열을 임시 배열로 복사
-    pass
     
-    # TODO: 두 배열을 병합
-    pass
+    left_buff = arr[left:mid+1]
+    right_buff = arr[mid+1:right+1]
+    
+    # TODO: 포인터 초기화
+    i, j, k = 0, 0, left
     
     
     # TODO: left_arr와 right_arr를 비교하며 작은 값을 arr에 복사
-    pass
+    while i < len(left_buff) and j < len(right_buff):
+        if left_buff[i] < right_buff[j]:
+            arr[k] = left_buff[i]
+            i += 1
+        else:
+             arr[k] = right_buff[j]
+             j += 1
+        k += 1
     
     # TODO: 남은 원소들을 복사
-    # left_arr에 남은 원소가 있으면 복사
-    # right_arr에 남은 원소가 있으면 복사
-    pass
+    # left_buff에 남은 원소가 있으면 복사
+    # right_buff에 남은 원소가 있으면 복사
+    while i < len(left_buff):
+        arr[k] = left_buff[i]
+        i += 1
+        k += 1
+
+    while j < len(right_buff):
+        arr[k] = right_buff[j]
+        j += 1
+        k += 1
 
 def merge_sort_helper(arr, left, right):
     """
@@ -61,8 +78,12 @@ def merge_sort_helper(arr, left, right):
     ## 왼쪽 절반 재귀 정렬
     ## 오른쪽 절반 재귀 정렬
     ## 정렬된 두 절반을 병합
-    pass
-
+    if left < right:
+        mid = (left + right) // 2
+        merge_sort_helper(arr, left, mid)
+        merge_sort_helper(arr, mid + 1, right)
+        merge(arr, left, mid, right)
+        
 def merge_sort(arr):
     """
     머지 정렬 메인 함수
@@ -111,3 +132,9 @@ if __name__ == "__main__":
     print(f"정렬 후: {result4}")
 
 
+# 병합 방식: 왼쪽만 buff에 두는 방식 vs 왼쪽/오른쪽 둘 다 임시 배열로 복사하는 방식이 있음. 이 문제는 후자(left_buff, right_buff 모두 생성)를 요구함. 결과는 동일하고 구현 방식만 다름.
+# 왼쪽/오른쪽 정렬 주체: merge_sort_helper가 재귀로 분할하며 알아서 정렬함. merge 호출 시점엔 이미 두 쪽이 각각 정렬 완료된 상태임.
+# 병합 후 남은 원소: 한 쪽이 먼저 소진되면 나머지 쪽에 원소가 여러 개 남을 수 있음. 남은 원소들은 이미 정렬된 상태이므로 순서대로 arr에 붙이면 됨.
+# while 조건 순서: j >= 0 and arr[j] > key처럼 범위 체크를 앞에 써야 함. and는 왼쪽부터 평가하므로 j >= 0이 False면 arr[j] 접근 자체를 안 함(단락평가).
+# k 초기값: k = left로 시작해야 함. 재귀 분할 후 merge가 호출될 때 left가 0이 아닐 수 있어서, k=0으로 시작하면 엉뚱한 자리(arr[0])부터 덮어씀.
+# 함수 실행 순서: merge_sort → merge_sort_helper(재귀 분할) → merge. merge는 항상 가장 마지막에 호출됨. 재귀가 바닥(원소 1개)까지 내려간 후 올라오면서 병합함.

@@ -24,6 +24,9 @@
 - pop(0): 앞에서 제거 (dequeue)
 """
 
+from typing import Any
+
+
 from collections import deque
 
 def process_print_queue(jobs):
@@ -41,10 +44,12 @@ def process_print_queue(jobs):
     
     processed = []
     
-    # TODO: 큐가 비어있지 않은 동안 반복
     ## 큐에서 작업 꺼내기
     ## 작업 처리 (출력 및 리스트에 추가)
-    pass
+    while queue:
+        job = queue.popleft()
+        print(f"처리: {job}")
+        processed.append(job)
     
     return processed
 
@@ -62,5 +67,4 @@ if __name__ == "__main__":
     print("=== 프린터 작업 처리 ===")
     result2 = process_print_queue(jobs2)
     print(f"처리 완료: {result2}")
-
 

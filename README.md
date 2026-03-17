@@ -17,7 +17,7 @@ SW_AI-W02-05-TEMPLATE/
 │       └── ...
 ├── week3/
 │   ├── basic/
-│   └── problem-solving/
+│   └── problem-solving/ 
 ├── week4/
 │   ├── basic/
 │   └── problem-solving/
