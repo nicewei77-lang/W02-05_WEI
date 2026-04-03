@@ -21,11 +21,18 @@
 0 → [1, 2]
 1 → [0, 2]
 2 → [0, 1, 3]
-3 → [2]
-
+3 → [2]0
 힌트:
 - 딕셔너리 사용: {정점: [연결된 정점들]}
 - 무방향 그래프는 양방향 추가
+
+# 질문 #
+vertices: vertex의 복수형. 정점의 총 개수.
+언패킹: 튜플/리스트의 각 요소를 여러 변수에 할당하는 것
+u와 v: user(출발), visitor(도착)
+directed: 방향 그래프 여부를 나타내는 boolen. False면 양방향 전부 추가해야 함
+graph[u].append(v): 딕셔너리 키 u에 해당하는 리스트에 v 추가 = 정점 u의 인접 리스트에 v 추가
+(1, 0)은 정점 1에서 0으로 가는 간선
 """
 
 def create_graph(vertices, edges, directed=False):
@@ -39,14 +46,19 @@ def create_graph(vertices, edges, directed=False):
     
     Returns:
         그래프 딕셔너리
+        
+    
     """
     # TODO: 빈 그래프 초기화
-    pass
+    graph = { i:[] for i in range(vertices)}
     
     # TODO: 간선 추가
     ## 간선 추가 (u에서 v로)
+    for u, v in edges:
+        graph[u].append(v)
     ## 무방향 그래프면 반대 방향도 추가
-    pass
+        if not directed:
+            graph[v].append(u)
     
     return graph
 

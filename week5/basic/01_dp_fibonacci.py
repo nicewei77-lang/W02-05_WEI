@@ -71,6 +71,16 @@ DP가 필요한 경우:
 - 조합 최적화
 - 자원 할당
 """
+# Bottom-up DP (O(n))
+def fib_dp(n):
+    if n <= 1:
+        return n
+    dp = [0] * (n + 1)
+    dp[0] = 0
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]
 
 def fibonacci_memo(n, memo=None):
     """
@@ -84,16 +94,16 @@ def fibonacci_memo(n, memo=None):
         n번째 피보나치 수
     """
     # TODO: memo가 None이면 빈 딕셔너리로 초기화
-    pass
+    if not memo: memo = {}
     
     # TODO: base case 
-    pass
+    if n <= 1: return n
     
-    # TODO: 이미 계산한 값이 memo에 있으면 반환
-    pass
+    # memo에 key n이 존재하면 값 반환
+    if n in memo: return memo[n]
     
-    # TODO: 재귀 호출하여 계산하고 memo에 저장
-    pass
+    # TODO: 없으면 재귀 호출하여 계산하고 memo에 저장(dict에는 대입으로 저장 append x, add x)
+    memo[n] = fibonacci_memo(n - 1, memo) + fibonacci_memo(n - 2, memo)
     
     return memo[n]
 
@@ -116,5 +126,4 @@ if __name__ == "__main__":
     # 비교: Week1의 재귀 방식은 fib(50)을 계산하기 어려움
     print("참고: 일반 재귀는 fib(40)도 몇 초 걸리지만")
     print("메모이제이션은 fib(100)도 순식간에 계산!")
-
 
